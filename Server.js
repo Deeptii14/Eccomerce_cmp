@@ -9,6 +9,7 @@ const { isAdmin } = require("./middlewares/admin");
 const upload = multer({ dest: "uploads/" });
 const adminroutes = require("./routes/Admin");
 const { createProduct } = require("./controller/Admin");
+const { resetPassword, ForgotPassword } = require("./controller/Password");
 //for photo upload
 app.use(express.static("uploads"));
 
@@ -59,6 +60,22 @@ app.get("/", function (req, res) {
 
 app.get("/verifyemail/:id", verifyEmail);
 
+//forget password
+app.get("/forgotpassword", (req, res) => {
+  res.render("forgotPasswdE");
+});
+
+app.post("/forgotpassword", ForgotPassword);
+app.get("/passwordresetform/:uid/:token", (req, res) => {
+  const { uid, token } = req.params;
+  res.render("passwordreset", {
+    user:uid,
+    token: token,
+  });
+});
+app.post("/reset/:tid", resetPassword);
+
+//about page
 app.get("/about", (req, res) => {
   res.render("About", { user: req.session.user });
 });

@@ -1,4 +1,5 @@
 const User = require("../models/User");
+
 //verification of mail
 exports.verifyEmail = async (req, res) => {
   try {
