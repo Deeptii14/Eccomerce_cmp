@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <style>
+          * {
+               margin: 0;
+               padding: 0;
+               font-family: Cambria, Cochin, Times, 'Times New Roman', serif;
+          }
+
+          .wrapper {
+
+               background-color: rgb(88, 99, 156);
+          }
+
+          nav {
+               padding: 14px 0;
+               color: white;
+               max-width: 1300px;
+               margin: 0 auto;
+               display: flex;
+               justify-content: space-between;
+
+          }
+
+          button {
+               padding: 5px;
+               color: rgb(88, 99, 156);
+               font-weight: bold;
+               font-size: large;
+               cursor: pointer;
+               border: 1px solid white;
+               border-radius: 3px;
+          }
+
+          a {
+               text-decoration: none;
+          }
+
+          .photo {
+               width: 40px;
+               height: 40px;
+               border-radius: 50%;
+               cursor: pointer;
+          }
+
+          .flex {
+               display: flex;
+               align-items: center;
+               gap: 20px;
+          }
+     </style>
+
+</head>
+
+<body>
+     <div class="wrapper">
+
+          <nav>
+               <h1 class="flex">
+                    Logged in as <%= username %>
+                         <% if (isAdmin) { %>
+                              <p style="font-style:italic; font-weight: bold; text-shadow: yellow;">
+                                   Admin*
+                              </p>
+                              <% } %>
+               </h1>
+               <div class="flex"> <a href="/about">
+
+                         <img src=<%=photo %> alt="photo" class="photo" id="pic">
+                    </a>
+                    <button id="logout"><a href="http://localhost:8000/logout">
+                              Log Out
+                         </a></button>
+               </div>
+          </nav>
+     </div>
+</body>
+<script>
+
+</script>
+
+</html>

@@ -1,0 +1,197 @@
+<style>
+     body {
+          font-family: 'Quicksand', sans-serif;
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+     }
+
+     .productDashboard {
+          max-width: 1350px;
+          margin: 0 auto;
+          margin-top: 38px;
+     }
+
+     .productcontainer {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          row-gap: 1.2rem;
+          column-gap: 1.3rem;
+     }
+
+     .newcard {
+          width: 30%;
+          min-height: 20rem;
+          margin: 10px 3px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          padding: 3px 10px;
+          box-shadow: 1px 3px 6px grey;
+     }
+
+     .main {
+          /* border: 2px solid red; */
+          width: 100%;
+          display: flex;
+          padding: 1rem;
+          flex-direction: column;
+     }
+
+     .imagecontainer {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+     }
+
+     .imagecontainer img {
+          width: 38%;
+          object-fit: cover;
+     }
+
+     .imagecontainer img:hover {
+          cursor: pointer;
+          transform: scale(1.5rem);
+     }
+
+     .textDiv {
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          height: 100%;
+          flex-direction: column;
+     }
+
+     .textDiv p {
+          font-weight: 600;
+          font-weight: 1rem;
+     }
+
+     .btnDiv {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 1rem;
+     }
+
+     .btnDiv button {
+          width: 50%;
+          border: none;
+          outline: none;
+          margin: 0 2px;
+          padding: 0.6rem;
+          cursor: pointer;
+     }
+
+     .btnDiv>:nth-child(1) {
+          background: #333;
+          color: white;
+     }
+
+     #morebtn {
+          background-color: rgb(155, 125, 68);
+          text-align: center;
+          color: white;
+          padding: 6px 12px;
+          display: flex;
+          justify-content: center;
+          margin: 16px auto;
+
+          margin-bottom: 18px;
+
+          border-radius: 8px;
+     }
+
+     .description {
+          font-size: 1rem;
+          margin: 1rem 0;
+     }
+</style>
+
+<div class="productDashboard">
+     <div id="productcontainer" class="productcontainer"></div>
+     <button id="morebtn">Load more products</button>
+</div>
+
+<script>
+     const loadMore = document.getElementById("morebtn");
+     loadMore.addEventListener("click", () => { getProducts() });
+
+
+
+     async function getproducts() {
+          let page = 0;
+          if (localStorage.getItem("page") >= 0) {
+               page = JSON.parse(localStorage.getItem("page"));
+               localStorage.setItem("page", (page + 1));
+          }
+          else if (localStorage.getItem("page") == null)
+               localStorage.setItem("page", JSON.stringify(1));
+          fetch(`http://localhost:8000/getproduct/${page}`)
+               .then(response => {
+                    if (response.status !== 200)
+                         throw new Error("Something went wrong")
+                    return response.json()
+               }).
+               then(products => {
+                    const { data } = products;
+                    const productcontainer = document.getElementById("productcontainer")
+
+                    data.forEach(product => {
+                         const newcard = document.createElement("div");
+                         newcard.classList.add("newcard");
+
+                         //      Creating elements
+                         const title = document.createElement("p");
+                         const price = document.createElement("span");
+                         const descbtn = document.createElement("button");
+                         const cartBtn = document.createElement("button")
+                         const btncontainer = document.createElement("div")
+                         const main = document.createElement("div");
+                         const imagecontainer = document.createElement("div");
+                         const textDiv = document.createElement("div");
+                         const image = document.createElement("img")
+
+                         main.classList.add("main")
+                         imagecontainer.classList.add('imagecontainer')
+                         textDiv.classList.add('textDiv');
+                         btncontainer.classList.add("btnDiv")
+                         image.src = product.photo;
+                         title.innerText = product.title;
+                         price.innerText = "Price: Rs " + product.price;
+                         descbtn.innerText = "View Desc";
+                         cartBtn.innerText = "Add to Cart";
+
+                         imagecontainer.appendChild(image);
+                         textDiv.appendChild(title);
+                         textDiv.appendChild(price);
+                         btncontainer.appendChild(descbtn);
+                         btncontainer.appendChild(cartBtn);
+                         textDiv.appendChild(btncontainer);
+                         descbtn.addEventListener('click', () => {
+                              alert(product.description)
+                              newcard.textContent = "";
+                              const description = document.createElement("div");
+                              description.innerText = product.description;
+                              description.classList.add("description");
+                              newcard.appendChild(main);
+                              newcard.appendChild(description)
+                         })
+                         main.appendChild(imagecontainer);
+                         main.appendChild(textDiv);
+                         newcard.appendChild(main);
+                         productcontainer.appendChild(newcard);
+                    });
+
+               }).catch(err)
+          {
+               alert(err)
+          }
+     }
+     getproducts();
+
+</script>
