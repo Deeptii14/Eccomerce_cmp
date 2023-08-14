@@ -72,7 +72,7 @@ exports.resetPassword = async (req, res) => {
       userdetail.email,
       "Password Updated Successfully ",
       "Login with new password",
-      `<h1>Congratulations ! ${userdetail.name} </h1><p>
+      `<h1>Congratulations ! ${userdetail.name}</h1><p>
     Password Updated Successfully !</p>`
     );
     res.status(200).render("passwdsuccs");

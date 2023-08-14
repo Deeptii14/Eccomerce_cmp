@@ -12,7 +12,7 @@ const { createProduct } = require("./controller/Admin");
 const { resetPassword, ForgotPassword } = require("./controller/Password");
 //for photo upload
 app.use(express.static("uploads"));
-
+app.use("/admin", express.static("uploads"));
 app.use(upload.single("photo"));
 //consoles type of req
 app.use(function (req, res, next) {
@@ -69,7 +69,7 @@ app.post("/forgotpassword", ForgotPassword);
 app.get("/passwordresetform/:uid/:token", (req, res) => {
   const { uid, token } = req.params;
   res.render("passwordreset", {
-    user:uid,
+    user: uid,
     token: token,
   });
 });

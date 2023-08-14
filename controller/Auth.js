@@ -111,14 +111,11 @@ exports.Signupget = (req, res) => {
 
 //get products with limit
 exports.getAllProducts = async (req, res) => {
-  const { page } = req.params;
+  const { page } = req.params || 1;
   let perPage = 5;
-  let skip = page * perPage;
+  let skip = (page - 1) * perPage;
   try {
-    const data = await Product.find()
-      .skip(skip)
-      .limit(perPage)
-      .sort({ updateAt: -1 });
+    const data = await Product.find().skip(skip).limit(perPage).exec();
     return res.status(200).json({ data });
   } catch (error) {
     return res.status(500).json({ error });

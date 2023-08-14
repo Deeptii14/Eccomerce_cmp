@@ -1,0 +1,117 @@
+<style>
+     * {
+          padding: 0;
+          box-sizing: border-box;
+          margin: 0;
+          font-family: Cambria, Cochin, Times, 'Times New Roman', serif;
+     }
+
+
+     .rightsection {
+          display: flex;
+          flex-direction: column;
+          padding: 30px;
+          width: 400px;
+          gap: 8px;
+          border: 2px solid whitesmoke;
+          border-radius: 10px;
+
+     }
+
+     .section {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: -42px;
+     }
+
+
+     #login {
+          background-color: rgb(88, 99, 156);
+          width: 100%;
+          border: none;
+          padding: 8px;
+          color: white;
+          font-size: larger;
+          font-weight: bold;
+          border-radius: 4px;
+          margin-top: 2rem;
+          cursor: pointer;
+     }
+
+     #signup {
+          color: rgb(88, 99, 156);
+          font-family: Georgia, 'Times New Roman', Times, serif;
+          font-weight: bolder;
+          text-decoration: underline;
+          cursor: pointer;
+     }
+
+     input {
+          width: 100%;
+          padding: 0.4rem;
+          font-size: 0.9rem;
+          outline: none;
+          border: 2px solid rgb(167, 167, 167);
+          border-radius: 4px;
+          margin: 0.4rem 0;
+     }
+
+     .inputlabel {
+          font-size: 1.2rem;
+          margin: 0.4rem 0;
+          font-weight: 800;
+     }
+
+     #siguptext {
+          color: gray;
+          font-size: 1rem;
+          font-weight: 500;
+     }
+
+     #signup:hover {
+          color: rgb(102, 15, 183);
+
+          transform: scale(1.08);
+     }
+
+     #login:hover {
+          background-color: rgb(102, 15, 183);
+          transform: scale(1.08);
+     }
+</style>
+<%- include("components/header", { username:user.name,photo:user.profilepic, isAdmin:user.isAdmin}) %>
+     <div class="section">
+          <div class="rightsection">
+               <form action="/admin/createproduct" method="post" id="form" enctype="multipart/form-data">
+
+                    <div>
+                         <div class="inputlabel">Title</div>
+                         <input required type="text" name="title" placeholder="cotton Tshirt" id="title">
+                    </div>
+                    <div>
+                         <div class="inputlabel">Description:</div>
+                         <input required type="text" name="description" placeholder="eg - summer friendly"
+                              id="description">
+                    </div>
+                    <div>
+                         <div class="inputlabel">Photo</div>
+                         <input required type="file" id="photo" name="photo">
+                    </div>
+                    <div>
+                         <div class="inputlabel">Price</div>
+                         <input required type="number" id="price" name="price" placeholder=" eg-549">
+                    </div>
+                    <div>
+                         <div class="inputlabel">Quantity</div>
+                         <input required type="number" id="" name="quantity" placeholder="eg-19,20....">
+                    </div>
+                    <button type="submit" id="login">Create Product</button>
+
+               </form>
+          </div>
+     </div>
+
+     <script>
+     </script>
