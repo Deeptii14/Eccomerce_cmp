@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const { findById } = require("../models/User");
 
 //create product
 exports.createProduct = async (req, res) => {
@@ -24,8 +25,8 @@ exports.createProduct = async (req, res) => {
 //update product
 exports.updateProduct = async (req, res) => {
   try {
-    const { _id, title, description, quantity, price } = req.body;
-    const foundedproduct = await Product.findOne({ _id: _id });
+    const { id, title, description, quantity, price } = req.body;
+    const foundedproduct = await Product.findOne({ _id: id });
     if (!foundedproduct) {
       return res.status(400).json({
         success: false,
@@ -33,7 +34,7 @@ exports.updateProduct = async (req, res) => {
       });
     }
     const updated = await Product.findByIdAndUpdate(
-      { _id: _id },
+      { _id: id },
       {
         title: title,
         quantity: quantity,
@@ -77,4 +78,26 @@ exports.deleteProduct = async (req, res) => {
     });
   }
 };
-//get product
+
+//get single product
+exports.singleProduct = async (req, res) => {
+  const id = req.params.id;
+  console.log("id", id);
+  try {
+    const product = await Product.findById({ _id: id });
+    if (!product) {
+      return res.status(400).json({
+        success: false,
+        message: "Product not found!",
+      });
+    }
+    return res.status(200).json({
+      product: product,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Product not found !",
+    });
+  }
+};

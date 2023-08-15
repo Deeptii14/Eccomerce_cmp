@@ -86,10 +86,15 @@
           margin: 0 2px;
           padding: 0.6rem;
           cursor: pointer;
+          color: white;
      }
 
      .btnDiv>:nth-child(1) {
           background: rgb(88, 99, 156);
+          color: white;
+     }
+
+     .btnDiv>:nth-child(1) a {
           color: white;
      }
 
@@ -98,7 +103,7 @@
           color: white;
      }
 
-     #morebtn {
+     .morebtn {
           background-color: rgb(155, 125, 68);
           text-align: center;
           color: white;
@@ -114,12 +119,20 @@
           font-size: 1rem;
           margin: 1rem 0;
      }
+
+     .flex {
+          display: flex;
+     }
 </style>
 
 <%- include("components/header", { username:user.name,photo:user.profilepic, isAdmin:user.isAdmin}) %>
      <div class="productDashboard">
           <div id="productcontainer" class="productcontainer"></div>
-          <button id="morebtn">Load more products</button>
+          <div class="flex">
+
+               <button id="morebtn" class="morebtn">Load more products</button>
+               <a href="/" class="morebtn">Go back</a>
+          </div>
      </div>
 
      <script>
@@ -148,6 +161,8 @@
                          newcard.classList.add("newcard");
 
                          //      Creating elements
+                         const id = product._id;
+                         const link = `/admin/update/${id}`;
                          const title = document.createElement("p");
                          const price = document.createElement("span");
                          const updatebtn = document.createElement("button");
@@ -165,7 +180,8 @@
                          image.src = product.photo;
                          title.innerText = product.title;
                          price.innerText = "Price: Rs " + product.price;
-                         updatebtn.innerText = "Update Product";
+                         updatebtn.innerHTML = `<a href=${link} >Update Product</a>`;
+
                          updatebtn.addEventListener("click", () => {
                               updateProduct(product);
                          })
@@ -211,7 +227,13 @@
                })
           }
 
-          async function updateProduct(product) {
-
-          }
+          // async function updateProduct(product) {
+          //      const id = product._id;
+          //      await fetch(`http://localhost:8000/admin/update/${id}`, {
+          //           method: "GET",
+          //           headers: {
+          //                "Content-Type": "application/json",
+          //           },
+          //      })
+          // }
      </script>

@@ -70,9 +70,21 @@
           font-weight: 500;
      }
 
-     #signup:hover {
-          color: rgb(102, 15, 183);
+     .Goback {
+          background-color: rgb(178, 42, 24);
+          width: 100%;
+          border: none;
+          padding: 8px;
+          color: white;
+          font-size: larger;
+          font-weight: bold;
+          border-radius: 4px;
+          cursor: pointer;
+          text-align: center;
+     }
 
+     .Goback :hover {
+          background-color: red;
           transform: scale(1.08);
      }
 
@@ -101,19 +113,62 @@
                     </div>
                     <div>
                          <div class="inputlabel">Quantity</div>
-                         <input required type="number" id="" name="quantity" placeholder="eg-19,20....">
+                         <input required type="number" id="quantity" name="quantity" placeholder="eg-19,20....">
                     </div>
-                    <button type="submit" id="login">Create Product</button>
+                    <button type="submit" id="login">Update Product</button>
 
                </form>
+               <a href="/" class="Goback">Go back </a>
           </div>
      </div>
 
      <script>
+          const id = "<%= product %>"
+          const title = document.getElementById("title");
+          const description = document.getElementById("description");
+          const quantity = document.getElementById("quantity");
+          const price = document.getElementById("price");
           const form = document.getElementById("form");
           form.addEventListener("submit", async function (event) {
                event.preventDefault();
+               const data = {
+                    id: id,
+                    title: title.value,
+                    description: description.value,
+                    quantity: quantity.value,
+                    price: price.value,
+               }
+               const response = await fetch("/admin/update", {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                         "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+               });
+
+               if (response.redirected) {
+                    window.location.replace(response.url);
+               }
+               const res = await response.json();
+               alert(res.message)
 
           })
 
+          async function getproduct() {
+               await fetch(`/admin/singleproduct/${id}`, {
+               }).then(res => {
+                    if (res.status !== 200)
+                         throw new Error("Something went wrong")
+                    return res.json()
+               }).then(result => {
+                    const { product } = result;
+                    title.value = product.title;
+                    price.value = product.price;
+                    quantity.value = product.quantity;
+                    description.value = product.description;
+
+               })
+          }
+          getproduct();
      </script>
