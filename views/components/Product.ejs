@@ -33,7 +33,7 @@
      }
 
      .main {
-          /* border: 2px solid red; */
+
           width: 100%;
           display: flex;
           padding: 1rem;
@@ -124,6 +124,35 @@
 
      let page = 0;
      getproducts();
+     async function addToCart(element) {
+          if (localStorage.getItem("cart")) {
+               let data = JSON.parse(localStorage.getItem("cart"));
+               var isFind = false;
+               let newData = data.map((item) => {
+                    if (item.item._id === element._id) {
+                         if (item.quantity + 1 <= element.quantity)
+                              item.quantity = item.quantity + 1;
+                         isFind = true;
+                    }
+                    return item;
+               })
+
+               if (!isFind) {
+                    if (element.quantity > 0) {
+                         const isNotFindedData = { item: element, quantity: 1 };
+                         newData.push(isNotFindedData);
+                    }
+               }
+
+               localStorage.setItem("cart", JSON.stringify(newData));
+          }
+          else {
+               let data = [];
+               data.push({ item: element, quantity: 1 });
+               localStorage.setItem("cart", JSON.stringify(data));
+          }
+     }
+
 
      async function getproducts() {
           page++;
@@ -163,7 +192,7 @@
                     price.innerText = "Price: Rs " + product.price;
                     descbtn.innerText = "View Desc";
                     cartBtn.innerText = "Add to Cart";
-
+                    cartBtn.addEventListener("click", () => { addToCart(product) })
                     imagecontainer.appendChild(image);
                     textDiv.appendChild(title);
                     textDiv.appendChild(price);

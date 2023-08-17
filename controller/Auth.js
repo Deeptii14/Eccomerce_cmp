@@ -121,3 +121,14 @@ exports.getAllProducts = async (req, res) => {
     return res.status(500).json({ error });
   }
 };
+
+//get all cart product
+
+exports.CartGetProduct = async (req, res) => {
+  try {
+    const isFind = await Product.findOne({ _id: req.body.data });
+    if (isFind) res.status(200).json({ msg: isFind });
+  } catch (error) {
+    res.status(400);
+  }
+};

@@ -10,6 +10,8 @@ const upload = multer({ dest: "uploads/" });
 const adminroutes = require("./routes/Admin");
 const { createProduct } = require("./controller/Admin");
 const { resetPassword, ForgotPassword } = require("./controller/Password");
+const { CartGetProduct } = require("./controller/Auth");
+
 //for photo upload
 app.use(express.static("uploads"));
 app.use("/admin", express.static("uploads"));
@@ -51,7 +53,7 @@ app.get("/", function (req, res) {
     if (req.session.isAdmin === true) {
       res.redirect("/admin");
     } else if (req.session.isAdmin === false) {
-      res.render("dashboard", { user: req.session.user, isAdmin: null });
+      res.render("dashboard", { user: req.session.user, isAdmin: false });
     }
   } else {
     res.render("homepage", { error: null });
@@ -75,6 +77,14 @@ app.get("/passwordresetform/:uid/:token", (req, res) => {
 });
 app.post("/reset/:tid", resetPassword);
 
+//cart page
+app.get("/cart", (req, res) => {
+  if (req.session.isLoggedIn) {
+    res.render("cart", { user: req.session.user, isAdmin: false });
+  } else res.redirect("/login");
+});
+
+app.post("/cartGetProduct", CartGetProduct);
 //about page
 app.get("/about", (req, res) => {
   res.render("About", { user: req.session.user });

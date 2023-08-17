@@ -35,6 +35,7 @@
                cursor: pointer;
                border: 1px solid white;
                border-radius: 3px;
+               margin-left: 4px;
           }
 
           a {
@@ -73,9 +74,14 @@
 
                          <img src=<%=photo %> alt="photo" class="photo" id="pic">
                     </a>
-                    <button id="logout"><a href="http://localhost:8000/logout">
-                              Log Out
-                         </a></button>
+                    <% if (isAdmin===false) { %>
+                         <button id="logout"><a href="http://localhost:8000/cart">
+                                   Go to Cart
+                              </a></button>
+                         <% } %>
+                              <button id="logout"><a href="http://localhost:8000/logout">
+                                        Log Out
+                                   </a></button>
                </div>
           </nav>
      </div>
